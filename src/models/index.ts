@@ -1,8 +1,8 @@
 'use strict';
 import fs  from 'fs';
+import process from 'process';
 import path  from 'path';
 import Sequelize  from 'sequelize';
-import process  from 'process';
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -44,4 +44,4 @@ Object.keys(db).forEach(modelName => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+export default db;
