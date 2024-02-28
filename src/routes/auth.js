@@ -1,6 +1,4 @@
-import {Request, Response} from 'express';
-import authController from '../controllers/auth';
-import { signUpTypes, signInTypes } from '../controllers/auth';
+const {signup, login} = require ('../controllers/auth');
 const router = require('express').Router();
 
 
@@ -12,16 +10,16 @@ const router = require('express').Router();
  * @param {Response} response
  * @returns {String}
  */
-router.post('/signup', async (request: Request, response: Response) => {
+router.post('/signup', async (request, response) => {
     try {
         const { email, password, userName }= request.body;
         if (!email || !password) {
             response.status(502).json('Email or Password not found');
         }
-        const signData: signUpTypes = { email, password, userName };
-        const token = await authController.signup(signData);
+        const signData = { email, password, userName };
+        const token = await signup(signData);
         response.status(200).json(token);
-    } catch (error: any) {
+    } catch (error) {
         response.status(500).json('Error at Sign up' + error);
     }
 });
@@ -32,18 +30,18 @@ router.post('/signup', async (request: Request, response: Response) => {
  * @param {Response} response
  * @returns {String}
  */
-router.post('/login', async (request: Request, response: Response) => {
+router.post('/login', async (request, response) => {
     try {
         const { email, password } = request.body;
         if (!email || !password) {
             response.status(502).json('Incorrect data');
         }
-        const signData: signInTypes = { email, password};
-        const token = await authController.login(signData);
+        const signData = { email, password};
+        const token = await login(signData);
         response.status(200).json(token);
-    } catch (error:any) {
+    } catch (error) {
         response.status(500).json(error.message);
     }
 });
 
-export default router;
+module.exports = router;

@@ -1,13 +1,11 @@
-import jsonwebtoken from 'jsonwebtoken';
-import models from '../models/index';
-import {Request, Response, NextFunction} from 'express';
+const jsonwebtoken = require('jsonwebtoken');
+const models = require('../models/index');
+
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
-type TokenPayload = {
-    email: string
-}
 
-const ensureAuthentication = async (request: Request & {user: { id:string , email: string } }, response: Response, next: NextFunction) => {
+
+const ensureAuthentication = async (request, response, next) => {
     if (request.path.includes('/auth')) {
         return next();
     }
@@ -21,7 +19,7 @@ const ensureAuthentication = async (request: Request & {user: { id:string , emai
         return response.status(403).json('Invalid token');
     }
 
-    const payload = jsonwebtoken.decode(token) as TokenPayload;
+    const payload = jsonwebtoken.decode(token);
     if (!payload || !payload.email) {
         return response.status(403).json('Invalid token');
     }
@@ -37,4 +35,4 @@ const ensureAuthentication = async (request: Request & {user: { id:string , emai
     next();
 };
 
-export default ensureAuthentication;
+module.exports = {ensureAuthentication};

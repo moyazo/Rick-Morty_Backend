@@ -2,14 +2,12 @@ version: '3.9'
 services:
   db:
     container_name: 'rickmorty'
-    image: postgres:16
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=12345678
-      - POSTGRES_DB=rickmortyDB
-    ports:
-      - '5432:5432'
+    image: postgres
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - my_pg_v:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=rickmorty
+      - POSTGRES_PASSWORD=rickmorty
+
 volumes:
-  postgres-data:
+  my_pg_v:

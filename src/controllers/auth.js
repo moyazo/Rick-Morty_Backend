@@ -1,23 +1,13 @@
-import models from '../models';
-import bcrypt from 'bcrypt';
-import jsonwebtoken from 'jsonwebtoken';
-import getUserByEmail  from './users';
+const models = require('../models');
+const bcrypt = require('bcrypt');
+const jsonwebtoken = require('jsonwebtoken');
+const {getUserByEmail} = require('./users');
 
-export type signUpTypes = {
-    email: string,
-    password: string,
-    userName: string
-}
-export type signInTypes = {
-    email: string,
-    password: string,
-}
-
-const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
+const TOKEN_SECRET = process.env.TOKEN_SECRET || 'asfagwe234534gs';
 const User = models.User;
 const saltRounds = 10;
 
-const signup = async (signData: signUpTypes) => {
+const signup = async (signData) => {
     const existedUser = await getUserByEmail(signData.email);
 
     if (existedUser) {
@@ -37,7 +27,7 @@ const signup = async (signData: signUpTypes) => {
     return jsonwebtoken.sign({ email: user.email }, TOKEN_SECRET);
 };
 
-const login = async (signData: signInTypes) => {
+const login = async (signData) => {
     const user = await getUserByEmail(signData.email);
 
     if (!user) {
@@ -53,4 +43,4 @@ const login = async (signData: signInTypes) => {
     return jsonwebtoken.sign({ email: user.email }, TOKEN_SECRET);
 };
 
-export default {signup,login} ;
+module.exports = { signup, login };
