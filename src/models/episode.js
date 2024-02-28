@@ -3,17 +3,17 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class Episode extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      models.Episode.hasMany(models.Character); 
     }
   }
-  User.init({
+  Episode.init({
     id: {
       allowNull: false,
       primaryKey: true,
@@ -21,33 +21,30 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
-  },
-  email: {
+    },
+    episodeName: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
-  },
-  password: {
+      allowNull: false
+    },
+    air_name: {
       type: DataTypes.STRING,
-      allowNull: false,
-  },
-  userName: {
+      allowNull: false
+    },
+    episodeCode: {
       type: DataTypes.STRING,
-  },
-  salt: {
-      type: DataTypes.STRING,
-  },
-  createdAt: {
+      allowNull: false
+    },
+    createdAt: {
       allowNull: false,
-      type: DataTypes.DATE,
-  },
-  updatedAt: {
+      type: DataTypes.DATE
+    },
+    updatedAt: {
       allowNull: false,
-      type: DataTypes.DATE,
-  },
+      type: DataTypes.DATE
+    }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'Episode',
   });
-  return User;
+  return Episode;
 };

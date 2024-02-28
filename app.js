@@ -19,6 +19,7 @@ const startApp = async () => {
 
     app.use(ensureAuthentication);
     app.use('/auth', authRoutes);
+    await syncApi();
 
     try {
         await db.sequelize.sync({ force: false });

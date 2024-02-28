@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class User extends Model {
+  class CharacterLocation extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,41 +13,42 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  User.init({
+  CharacterLocation.init({
     id: {
-      allowNull: false,
-      primaryKey: true,
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
-      onDelete: 'CASCADE',
-      onUpdate: 'CASCADE',
-  },
-  email: {
-      type: DataTypes.STRING,
-      unique: true,
       allowNull: false,
-  },
-  password: {
-      type: DataTypes.STRING,
+      primaryKey: true,
+    },
+    characterId: {
       allowNull: false,
-  },
-  userName: {
-      type: DataTypes.STRING,
-  },
-  salt: {
-      type: DataTypes.STRING,
-  },
-  createdAt: {
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      references: {
+        model: 'Character',
+        key: 'id',
+      },
+    },
+    locationId: {
+      allowNull: false,
+      type: DataTypes.UUID,
+      defaultValue: DataTypes.UUIDV4,
+      references: {
+        model: 'Location',
+        key: 'id',
+      },
+    },
+    createdAt: {
       allowNull: false,
       type: DataTypes.DATE,
-  },
-  updatedAt: {
+    },
+    updatedAt: {
       allowNull: false,
       type: DataTypes.DATE,
-  },
+    }
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'CharacterLocation',
   });
-  return User;
+  return CharacterLocation;
 };
