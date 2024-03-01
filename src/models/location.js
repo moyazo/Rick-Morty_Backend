@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       models.Location.belongsToMany(models.Character, {
         through: 'CharacterLocation',
-        as: 'characterLocations',
+        as: 'characterLocation',
         foreignKey: 'locationId',
     });
     }

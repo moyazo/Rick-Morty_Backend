@@ -10,22 +10,30 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Character.belongsTo(models.Episode); // Un personaje pertenece a un episodio
-      models.Character.belongsToMany(models.Location, {
-          through: 'CharacterLocation',
-          as: 'characterLocations',
-        foreignKey: 'characterId',
+      models.Character.belongsToMany(models.Episode, {
+          through: 'CharacterEpisode',
+          as: 'characterEpisodes',
+          foreignKey: 'characterId',
       });
+      models.Character.belongsToMany(models.Location, {
+        through: 'CharacterLocation',
+        as: 'characterLocation',
+        foreignKey: 'locationId',
+    });
     }
   }
   Character.init({
     id: {
       allowNull: false,
-      primaryKey: true,
       type: DataTypes.UUID,
+      primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
+    },
+    characterId: {
+      type: DataTypes.INTEGER,
+      allowNull:false,
     },
     characterName: {
       type: DataTypes.STRING,
@@ -50,23 +58,9 @@ module.exports = (sequelize, DataTypes) => {
       }),
       allowNull: false
     },
-    origin: {
-      type: DataTypes.JSON({
-        place: DataTypes.STRING,
-        url: DataTypes.STRING
-      }),
-      allowNull: false
-    },
-    location: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
     image: {
       type: DataTypes.STRING,
       allowNull: false
-    },
-    episode: {
-      type: DataTypes.ARRAY(DataTypes.STRING)
     },
     createdAt: {
       allowNull: false,

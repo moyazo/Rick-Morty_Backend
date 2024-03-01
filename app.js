@@ -4,6 +4,10 @@ const dotenv = require('dotenv');
 const db = require('./src/models');
 const { ensureAuthentication } = require('./src/middleware/auth');
 const authRoutes = require('./src/routes/auth')
+const syncApi = require('./src/services/sync');
+const API_URL_CHARACTER = 'https://rickandmortyapi.com/api/character';
+const API_URL_LOCATION = 'https://rickandmortyapi.com/api/location';
+const API_URL_EPISODE = 'https://rickandmortyapi.com/api/episode';
 
 const startApp = async () => {
     const app = express();
@@ -19,7 +23,7 @@ const startApp = async () => {
 
     app.use(ensureAuthentication);
     app.use('/auth', authRoutes);
-    await syncApi();
+    await syncApi(API_URL_CHARACTER,API_URL_LOCATION,API_URL_EPISODE);
 
     try {
         await db.sequelize.sync({ force: false });

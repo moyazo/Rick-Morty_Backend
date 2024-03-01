@@ -4,10 +4,16 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Characters', {
       id: {
-        type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
         allowNull: false,
+        type: Sequelize.UUID,
         primaryKey: true,
+        defaultValue: Sequelize.UUIDV4,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+      characterId: {
+        type: Sequelize.INTEGER,
+        allowNull:false,
       },
       characterName: {
         type: Sequelize.STRING,
@@ -32,23 +38,9 @@ module.exports = {
         }),
         allowNull: false
       },
-      origin: {
-        type: Sequelize.JSON({
-          place: Sequelize.STRING,
-          url: Sequelize.STRING
-        }),
-        allowNull: false
-      },
-      location: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       image: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      episode: {
-        type: Sequelize.ARRAY(Sequelize.STRING)
       },
       createdAt: {
         allowNull: false,

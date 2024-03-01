@@ -10,7 +10,11 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.Episode.hasMany(models.Character); 
+      models.Episode.belongsToMany(models.Character, {
+        through: 'CharacterEpisode',
+        as: 'characterEpisodes',
+        foreignKey: 'episodeId',
+      });
     }
   }
   Episode.init({
@@ -21,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       onDelete: 'CASCADE',
       onUpdate: 'CASCADE',
+    },
+    episodeId: {
+      type: DataTypes.INTEGER,
+      allowNull:false,
     },
     episodeName: {
       type: DataTypes.STRING,
